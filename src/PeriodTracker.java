@@ -83,14 +83,14 @@ public class PeriodTracker {
         lastStartDate = LocalDate.parse(periodStartDate, formatter);
     
         if (predictedStartDate == null) {
-            System.out.println("✅ No previous predictions available. Starting fresh with this cycle.");
+            System.out.println("No previous predictions available. Starting fresh with this cycle.");
             predictedStartDate = lastStartDate;
             predictedEndDate = predictedStartDate.plusDays(periodLength);
         } else if (lastStartDate.equals(predictedStartDate)) {
             System.out.println("\uD83C\uDF89 Congratulations! Your cycle started on the predicted date.");
             deleteOldCycleData(predictedStartDate.format(formatter));
         } else {
-            System.out.println("⚠️ Your cycle did not start on the predicted date. Recording actual start date.");
+            System.out.println("Your cycle did not start on the predicted date. Recording actual start date.");
             deleteOldCycleData(lastStartDate.format(formatter));
             // Overwrite prediction with actual start date.
             predictedStartDate = lastStartDate;
@@ -115,7 +115,7 @@ public class PeriodTracker {
             System.out.println("- Apply heat to relax muscles\n- Exercise to release pain-blocking endorphins");
             System.out.println("- Reduce stress to ease pain perception\n- Get vitamins and minerals through a healthy diet");
             System.out.println("\uD83D\uDD14 Your period is expected to end on: " + predictedEndDate);
-            System.out.println("✅ I will remind you to confirm when it ends.");
+            System.out.println("I will remind you to confirm when it ends.");
             
             // Overwrite the previous cycle data's start date with the new cycle start date.
             deleteOldCycleData(periodStartDate);
@@ -127,7 +127,7 @@ public class PeriodTracker {
     // When today is the predicted end date, ask the user to confirm the actual end date.
     private static void confirmCycleEnd(Scanner scanner) {
         if (lastStartDate == null) {
-            System.out.println("⚠️ Error: No recorded start date. Please enter the start date again.");
+            System.out.println("Error: No recorded start date. Please enter the start date again.");
             enterCycleData(scanner);
             return;
         }
@@ -137,9 +137,9 @@ public class PeriodTracker {
         LocalDate confirmedEnd = LocalDate.parse(inputEndDate, formatter);
     
         if (predictedEndDate != null && confirmedEnd.equals(predictedEndDate)) {
-            System.out.println("🎉 Congratulations! Your cycle ended on the predicted date.");
+            System.out.println("Congratulations! Your cycle ended on the predicted date.");
         } else {
-            System.out.println("⚠️ Your cycle is irregular. It did not end on the predicted date.");
+            System.out.println("Your cycle is irregular. It did not end on the predicted date.");
         }
     
         // Overwrite old cycle data with the confirmed data
@@ -160,7 +160,7 @@ public class PeriodTracker {
         savePredictionData(predictedStartDate, predictedEndDate);
         saveCycleData(predictedStartDate.format(formatter), predictedEndDate.format(formatter));
     
-        System.out.println("✅ Predictions updated successfully. Next cycle saved!");
+        System.out.println("Predictions updated successfully. Next cycle saved!");
         cycleEndedConfirmed = true;
     }
     
@@ -170,8 +170,8 @@ public class PeriodTracker {
         predictedStartDate = end.plusDays(cycleGap);
         predictedEndDate = predictedStartDate.plusDays(periodLength);
     
-        System.out.println("📅 Your next period is expected to start on: " + predictedStartDate);
-        System.out.println("📅 Your next period is expected to end on: " + predictedEndDate);
+        System.out.println("Your next period is expected to start on: " + predictedStartDate);
+        System.out.println("Your next period is expected to end on: " + predictedEndDate);
         notifyUser(predictedStartDate);
     
         // Save new predictions.
@@ -183,9 +183,9 @@ public class PeriodTracker {
         String fileName = FOLDER_NAME + "/" + periodStartDate + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(periodStartDate + "\n" + periodEndDate);
-            System.out.println("✅ Cycle data saved for: " + periodStartDate + " - " + periodEndDate);
+            System.out.println("Cycle data saved for: " + periodStartDate + " - " + periodEndDate);
         } catch (IOException e) {
-            System.out.println("❌ Error saving cycle data.");
+            System.out.println("Error saving cycle data.");
         }
     }
     
@@ -228,9 +228,9 @@ public class PeriodTracker {
         File file = new File(fileName);
         if (file.exists()) {
             if (file.delete()) {
-                System.out.println("✅ Deleted old cycle data for start date: " + startDate);
+                System.out.println("Deleted old cycle data for start date: " + startDate);
             } else {
-                System.out.println("⚠️ Failed to delete old cycle data for start date: " + startDate);
+                System.out.println("Failed to delete old cycle data for start date: " + startDate);
             }
         }
     }
@@ -256,11 +256,11 @@ public class PeriodTracker {
         LocalDate now = LocalDate.now();
         if (predictedStartDate != null && predictedEndDate != null) {
             if (now.plusDays(3).equals(predictedStartDate)) {
-                System.out.println("🔔 NOTIFICATION: Your period is approaching. Be prepared!");
+                System.out.println("NOTIFICATION: Your period is approaching. Be prepared!");
             } else if (now.equals(predictedStartDate)) {
-                System.out.println("🔔 NOTIFICATION: Your period is expected today. Please confirm.");
+                System.out.println("NOTIFICATION: Your period is expected today. Please confirm.");
             } else if (now.equals(predictedEndDate)) {
-                System.out.println("🔔 NOTIFICATION: Your period should end today. Please confirm.");
+                System.out.println("NOTIFICATION: Your period should end today. Please confirm.");
                 confirmCycleEnd(scanner);
             }
         }
@@ -268,7 +268,7 @@ public class PeriodTracker {
     
     // Notifies the user of the next predicted start date.
     private static void notifyUser(LocalDate predictedStartDate) {
-        System.out.println("🔔 NOTIFICATION: Your next period is expected to start on " + predictedStartDate);
+        System.out.println("NOTIFICATION: Your next period is expected to start on " + predictedStartDate);
     }
 }
 
